@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDota", "WebDota\WebDota.csproj", "{0320F8AD-8957-4D91-AB8F-EB8CBCC1E497}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0320F8AD-8957-4D91-AB8F-EB8CBCC1E497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0320F8AD-8957-4D91-AB8F-EB8CBCC1E497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0320F8AD-8957-4D91-AB8F-EB8CBCC1E497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0320F8AD-8957-4D91-AB8F-EB8CBCC1E497}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
