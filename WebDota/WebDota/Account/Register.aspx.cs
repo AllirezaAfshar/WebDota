@@ -16,7 +16,26 @@ namespace WebDota.Account
         {
             try
             {
-                SqlHelper.Run(string.Format(""));
+                SqlHelper.Run(string.Format(@"
+                    
+
+                    INSERT INTO[dbo].[User]
+                               ([Age]
+                               ,[Name]
+                               ,[UserName]
+                               ,[Password]
+                               ,[Email],
+                               ID)
+                         VALUES
+                               (20,
+                               '"+Name.Text + @"',
+                               '" + LastName.Text + @"',
+                               '" + Password.Text + @"',
+                               '" + Email.Text + @"',
+                               (SELECT 1 + count(*) from dbo.[User]))
+                    
+                    "));
+                ErrorMessage.Text = "Done";
             }
             catch (Exception exp)
             {
