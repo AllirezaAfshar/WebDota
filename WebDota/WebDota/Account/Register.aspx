@@ -44,6 +44,26 @@
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match." />
             </div>
         </div>
+        <br/>
+        <div>
+            <ul>
+                <li>
+                    1 - Centaur
+                </li>
+                <li>
+                    2 - Lich
+                </li>
+                <li>
+                    3 - Holy Knight
+                </li>
+                <li>
+                    4 - Gorgon
+                </li>
+
+            </ul>
+            hero number: <asp:TextBox runat="server" ID="txtHeroId"></asp:TextBox>
+        </div>
+        <br/>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <asp:Button runat="server" OnClick="CreateUser_Click" Text="Register" CssClass="btn btn-default" />

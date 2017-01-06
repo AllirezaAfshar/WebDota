@@ -10,15 +10,24 @@
 namespace WebDota {
     
     
-    public partial class _Default {
+    public partial class Logs {
         
         /// <summary>
-        /// info control.
+        /// AttackLog control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView info;
+        protected global::System.Web.UI.WebControls.GridView AttackLog;
+        
+        /// <summary>
+        /// MagicLog control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView MagicLog;
     }
 }

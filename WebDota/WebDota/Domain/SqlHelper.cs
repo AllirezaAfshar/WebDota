@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 
 namespace WebDota.Domain
@@ -69,6 +70,149 @@ namespace WebDota.Domain
                         //retObj.NextResult();
                     }
                 }
+                connection.Close();
+            }
+            return retList;
+        }
+
+
+        public static WebDota.User GetUser(string email)
+        {
+            WebDota.User ret = new User();
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WarehouseContext"].ConnectionString))
+            {
+                SqlDataReader retObj;
+                connection.Open();
+                string query = @"select top 1 u.Name , upp.PlayerID , pch.HeroID , h.Name , u.Email from [User] as u
+                    , PlayerControlHero as pch,
+                    UserPlayPlayer as upp , Hero as h
+                    where Email like '" + email+@"%'
+                    and upp.UserID = u.ID and pch.PlayerID = upp.PlayerID and h.ID = pch.HeroID
+                    order by u.ID desc";
+                SqlCommand command = new SqlCommand(query, connection) { CommandTimeout = 0 };
+                retObj = command.ExecuteReader();
+
+                if (retObj.HasRows)
+                {
+                    retObj.Read();
+                    {
+                        ret.Name = retObj.GetString(0).Trim();
+                        ret.PlayerID = retObj.GetInt32(1).ToString();
+                        ret.HeroID = retObj.GetInt32(2).ToString();
+                        ret.HeroName = retObj.GetString(3).Trim();
+                        ret.Email = retObj.GetString(4).Trim();
+                    }
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+                connection.Close();
+            }
+            return ret;
+        }
+
+
+        public static List<User> GetOtherUser(string email)
+        {
+            List<User> retList = new List<User>();
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WarehouseContext"].ConnectionString))
+            {
+                SqlDataReader retObj;
+                connection.Open();
+                string query = @"select  u.Name , upp.PlayerID , pch.HeroID , h.Name , u.Email from [User] as u
+                    , PlayerControlHero as pch,
+                    UserPlayPlayer as upp , Hero as h
+                    where Email not like '" + email + @"%'
+                    and upp.UserID = u.ID and pch.PlayerID = upp.PlayerID and h.ID = pch.HeroID
+                    ";
+                SqlCommand command = new SqlCommand(query, connection) { CommandTimeout = 0 };
+                retObj = command.ExecuteReader();
+
+                if (retObj.HasRows)
+                {
+                    while(retObj.Read())
+                    {
+                        User u = new User();
+                        u.Name = retObj.GetString(0).Trim();
+                        u.PlayerID = retObj.GetInt32(1).ToString();
+                        u.HeroID = retObj.GetInt32(2).ToString();
+                        u.HeroName = retObj.GetString(3).Trim();
+                        u.Email = retObj.GetString(4).Trim();
+                        retList.Add(u);
+                    }
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+                connection.Close();
+            }
+            return retList;
+        }
+
+
+
+        public static List<Item> GetItems()
+        {
+            List<Item> retList = new List<Item>();
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WarehouseContext"].ConnectionString))
+            {
+                SqlDataReader retObj;
+                connection.Open();
+                string query = @"SELECT TOP (1000) [ID]
+      ,[name]
+  FROM [WebDota].[dbo].[Items]
+                    ";
+                SqlCommand command = new SqlCommand(query, connection) { CommandTimeout = 0 };
+                retObj = command.ExecuteReader();
+
+                if (retObj.HasRows)
+                {
+                    while (retObj.Read())
+                    {
+                        Item i = new Item();
+                        i.ID = retObj.GetInt32(0).ToString();
+                        i.Name = retObj.GetString(1).Trim();
+                        retList.Add(i);
+                    }
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+                connection.Close();
+            }
+            return retList;
+        }
+        public static List<List<string>> RunWithColomns(string query)
+        {
+            List<List<string>> retList = new List<List<string>>();
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["WarehouseContext"].ConnectionString))
+            {
+                SqlDataReader retObj;
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(query, connection) { CommandTimeout = 0 };
+                retObj = command.ExecuteReader();
+
+                if (retObj.HasRows)
+                {
+                    while (retObj.Read())
+                    {
+                        List<string> tmp = new List<string>();
+                        for (int i = 0; i < retObj.FieldCount; i++)
+                        {
+                            tmp.Add(retObj.GetString(i));
+                        }
+                        retList.Add(tmp);
+
+                        //retObj.NextResult();
+                    }
+                }
 
 
 
@@ -77,7 +221,6 @@ namespace WebDota.Domain
             }
             return retList;
         }
-
 
         /// <summary>
         /// یک پرس و جو را اجرا کرده و مقادیر مربوط به آن را بازگردانی می کند.
